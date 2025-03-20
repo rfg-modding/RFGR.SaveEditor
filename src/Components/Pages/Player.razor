@@ -1,0 +1,275 @@
+﻿@inherits SaveFileComponent
+@using RFGR.SaveEditor.Utilities
+
+<h1>Player</h1>
+
+<div class="options">
+    <section>
+        <label class="option__label ">Position</label>
+        <div class="option__box">
+            <div class="option__row">
+                <div class="option__row__body">
+                    <label class="option__label" for="X">X</label>
+                    <div class="option__value">
+                        <InputField TValue="float" @bind-value="World.PlayerPositionState.Position.X"  id="X" />
+                    </div>
+                </div>
+            </div>
+            <div class="option__row">
+                <div class="option__divider"></div>
+                <div class="option__row__body">
+                    <label class="option__label" for="Y">Y</label>
+                    <div class="option__value">
+                        <InputField TValue="float" @bind-value="World.PlayerPositionState.Position.Y"  id="Y" />
+                    </div>
+                </div>
+            </div>
+            <div class="option__row">
+                <div class="option__divider"></div>
+                <div class="option__row__body">
+                    <label class="option__label" for="Z">Z</label>
+                    <div class="option__value">
+                        <InputField TValue="float" @bind-value="World.PlayerPositionState.Position.Z"  id="Z" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <label class="option__label ">Statistics</label>
+        <div class="option__box">
+            <div class="option__row">
+                <div class="option__row__body">
+                    <label class="option__label" for="salvage">Salvage</label>
+                    <div class="option__value">
+                        <InputField TValue="int" id="salvage"  @bind-value="World.PlayerMetadataState.Salvage" Max="30000" Min="0"/>
+                    </div>
+                </div>
+            </div>
+            <div class="option__row">
+                <div class="option__divider"></div>
+                <div class="option__row__body">
+                    <label class="option__label" for="crates">Crates</label>
+                    <div class="option__value">
+                        <InputField TValue="int" id="crates"  @bind-value="World.PlayerMetadataState.SupplyCrateCount"/>
+                    </div>
+                </div>
+            </div>
+            <div class="option__row">
+                <div class="option__divider"></div>
+                <div class="option__row__body">
+                    <label class="option__label" for="ore">Ore</label>
+                    <div class="option__value">
+                        <InputField TValue="int" id="ore"  @bind-value="World.PlayerMetadataState.MiningCount"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="option__box">
+            <div class="option__row">
+                <div class="option__row__body">
+                    <label class="option__label" for="recentVehicle">Recent Vehicle</label>
+                    <div class="option__value">
+                        <Combobox
+                            TValue="string"
+                            @bind-value="World.SpawnNodeState.HostName"
+                            Options="VehicleOptions"
+                            id="recentVehicle"
+                            />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    @{
+        var items = World.PlayerInventoryState.Items;
+
+        var slot3 = items.FirstOrDefault(i => i.SelectionSlot == 3);
+        var slot0 = items.FirstOrDefault(i => i.SelectionSlot == 0);
+        var slot1 = items.FirstOrDefault(i => i.SelectionSlot == 1);
+        var slot2 = items.FirstOrDefault(i => i.SelectionSlot == 2);
+    }
+    
+    <section>
+        <label class="option__label">Inventory</label>
+        <div style="display: flex; flex-direction: row; align-items: center; gap: var(--size-2); margin-bottom: var(--size-2);">
+            <button class="btn @(items.Count >= 4 ? "disabled" : "")" @onclick="AddItem">
+                Add
+            </button>
+            <button class="btn @(items.Count == 2 ? "disabled" : "")" @onclick="RemoveItem">
+                Remove
+            </button>
+        </div>
+        <div class="option__box">
+            @if (slot3 != null)
+            {
+                <div class="option__row">
+                    <label class="option__label ">
+                        Slot 3
+                    </label>
+                    <div class="option__box">
+                        <div class="option__row">
+                            <div class="option__row__body">
+                                <label class="option__label" for="item3">Item</label>
+                                <div class="option__value">
+                                    <Combobox
+                                        @bind-Value="slot3.ItemName"
+                                        Options="WeaponOptions"
+                                        id="item3"
+                                        />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option__row">
+                            <div class="option__divider"></div>
+                            <div class="option__row__body">
+                                <label class="option__label" for="item3Mag">Magazine</label>
+                                <div class="option__value">
+                                    <InputField TValue="int"  id="item3Mag" @bind-value="slot3.MagazineSize"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (slot0 != null)
+            {
+                <div class="option__row">
+                    <label class="option__label ">
+                        Slot 0
+                    </label>
+                    <div class="option__box">
+                        <div class="option__row">
+                            <div class="option__row__body">
+                                <label class="option__label" for="item0">Item</label>
+                                <div class="option__value">
+                                    <Combobox
+                                        @bind-Value="slot0.ItemName"
+                                        Options="WeaponOptions"
+                                        id="item0"
+                                        />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option__row">
+                            <div class="option__divider"></div>
+                            <div class="option__row__body">
+                                <label class="option__label" for="item0Mag">Magazine</label>
+                                <div class="option__value">
+                                    <InputField TValue="int"  id="item0Mag" @bind-value="slot0.MagazineSize"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (slot1 != null)
+            {
+                <div class="option__row">
+                    <label class="option__label ">
+                        Slot 1
+                    </label>
+                    <div class="option__box">
+                        <div class="option__row">
+                            <div class="option__row__body">
+                                <label class="option__label" for="item1">Item</label>
+                                <div class="option__value">
+                                    <Combobox
+                                        @bind-Value="slot1.ItemName"
+                                        Options="WeaponOptions"
+                                        id="item1"
+                                        />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option__row">
+                            <div class="option__divider"></div>
+                            <div class="option__row__body">
+                                <label class="option__label" for="item1Mag">Magazine</label>
+                                <div class="option__value">
+                                    <InputField TValue="int"  id="item1Mag" @bind-value="slot1.MagazineSize"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (slot2 != null)
+            {
+                <div class="option__row">
+                    <label class="option__label ">
+                        Slot 2
+                    </label>
+                    <div class="option__box">
+                        <div class="option__row">
+                            <div class="option__row__body">
+                                <label class="option__label" for="item2">Item</label>
+                                <div class="option__value">
+                                    <Combobox
+                                        @bind-Value="slot2.ItemName"
+                                        Options="WeaponOptions"
+                                        id="item2"
+                                        />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option__row">
+                            <div class="option__divider"></div>
+                            <div class="option__row__body">
+                                <label class="option__label" for="item2Mag">Magazine</label>
+                                <div class="option__value">
+                                    <InputField TValue="int"  id="item2Mag" @bind-value="slot2.MagazineSize"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <section>
+        <label class="option__label">Cheats</label> <Tooltip>Applies to all slots and are separated between base game and DLC.</Tooltip>
+        <div class="option__box">
+            @{
+                var dlcIndex = SlotHelpers.IsDlc(Slot) ? 1 : 0;
+                var cheatOrder = SlotHelpers.IsDlc(Slot) ? CheatMap.DlcCheats : CheatMap.BaseCheats;
+            }
+            @foreach (var key in cheatOrder)
+            {
+                if (CheatMap.Cheats.TryGetValue(key, out var cheatIndex))
+                {
+                    <div class="option__row">
+                        @if (cheatIndex != 1) { <div class="option__divider"></div> }
+                        <div class="option__row__body">
+                            <label class="option__label" for="@key">@key</label>
+                            <div class="option__value">
+                                <input type="checkbox" id="@($"{key}")" checked="@(Profile.CheatsUnlocked[dlcIndex, cheatIndex])" @onchange="e => SetCheat(dlcIndex, cheatIndex, (bool)e.Value)"/>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </section>
+</div>
+
+@*<div class="self-center">
+    <div class="grid-areas-inventory mt-1 grid items-center justify-center justify-items-center gap-2">
+        <p class="grid-in-slot0">0</p>
+        <p class="grid-in-slot1">1</p>
+        <p class="grid-in-slot2">2</p>
+        <p class="grid-in-slot3">3</p>
+        <svg class="grid-in-slotarrow size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g fill="none" fill-rule="evenodd">
+                <path d="M24 0v24H0V0zM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z" />
+                <path fill="currentColor" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2m-1.707 14.293a1 1 0 0 0 0 1.414l1 1a1 1 0 0 0 1.414 0l1-1a1 1 0 0 0-1.414-1.414l-.293.293l-.293-.293a1 1 0 0 0-1.414 0m-2.586-6a1 1 0 0 0-1.32-.083l-.094.083l-1 1a1 1 0 0 0-.083 1.32l.083.094l1 1a1 1 0 0 0 1.497-1.32l-.083-.094L7.414 12l.293-.293a1 1 0 0 0 0-1.414m10 0a1 1 0 0 0-1.497 1.32l.083.094l.293.293l-.293.293a1 1 0 0 0 1.32 1.497l.094-.083l1-1a1 1 0 0 0 .083-1.32l-.083-.094zm-5-5a1 1 0 0 0-1.32-.083l-.094.083l-1 1a1 1 0 0 0 1.32 1.497l.094-.083l.293-.293l.293.293a1 1 0 0 0 1.497-1.32l-.083-.094z" />
+            </g>
+        </svg>
+    </div>
+</div>*@

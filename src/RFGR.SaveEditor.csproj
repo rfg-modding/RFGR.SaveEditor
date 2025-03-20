@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <Platforms>x64</Platforms>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <ApplicationIcon>wwwroot/images/icon.ico</ApplicationIcon>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <SelfContained>false</SelfContained>
+        <PublishSingleFile>true</PublishSingleFile>
+        <DebugType>embedded</DebugType>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+        <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=./</PathMap>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Photino.Blazor" Version="4.0.13" />
+        <PackageReference Include="Sotsera.Blazor.Toaster" Version="3.0.0" />
+        <PackageReference Include="RFGM.Formats" Version="1.7.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Update="wwwroot/**" CopyToOutputDirectory="Always" />
+    </ItemGroup>
+    
+</Project>

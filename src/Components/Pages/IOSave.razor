@@ -1,0 +1,25 @@
+@inherits SaveFileComponent
+
+<h1>Save</h1>
+
+<div class="options options--save">
+    <ul>
+        <li>GOG: <code>C:\Users\&lt;UserName&gt;\AppData\Local\GOG.com\Galaxy\Applications\51153410217180642\Storage\Shared\Files\autocloud\save\keen_savegame_0_0.sav</code></li>
+        <li>Steam: <code>C:\Program Files (x86)\Steam\userdata\&lt;UserId&gt;\667720\remote\autocloud\save\keen_savegame_0_0.sav</code></li>
+    </ul>
+    
+    <div class="options__buttons">
+        <button class="btn options__buttons--primary"
+                @onclick="async() => await SaveFileHandler.SaveCurrent()">
+            Save current file
+        </button>
+        <button class="btn options__buttons--secondary @(SaveFileHandler.GogFoundDirectory ? "" : "disabled")"
+                @onclick="async() => await SaveFileHandler.SaveGog()">
+            @(SaveFileHandler.GogFoundDirectory ? "Write to GOG save file" : "Failed to detect GOG save directory")
+        </button>
+        <button class="btn options__buttons--secondary @(SaveFileHandler.SteamFoundDirectory ? "" : "disabled")"
+                @onclick="async() => await SaveFileHandler.SaveSteam()">
+            @(SaveFileHandler.SteamFoundDirectory ? "Write to Steam save file" : "Failed to detect Steam save directory")
+        </button>
+    </div>
+</div>
