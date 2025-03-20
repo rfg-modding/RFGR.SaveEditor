@@ -1,0 +1,88 @@
+/*
+This file belongs to https://github.com/CodeSeven/toastr with a MIT license: https://raw.githubusercontent.com/CodeSeven/toastr/master/LICENSE
+The specific version url is: https://github.com/CodeSeven/toastr/blob/50092cc604850a16c985520b63df184d3e0b4086/build/toastr.min.css 
+*/
+.toast-title {
+  font-weight: 700
+}
+
+.toast-message {
+  -ms-word-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.toast-message a,.toast-message label {
+  color: #FFF
+}
+
+.toast-message a:hover {
+  color: #CCC;
+  text-decoration: none
+}
+
+.toast-top-right {
+  top: 12px;
+  right: 12px
+}
+
+#toast-container {
+  position: fixed;
+  z-index: 999999;
+  pointer-events: none
+}
+
+#toast-container * {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box
+}
+
+#toast-container>div {
+  position: relative;
+  pointer-events: auto;
+  overflow: hidden;
+  margin: 0 0 var(--size-2);
+  padding: var(--size-2);
+  padding-left: var(--size-10);
+  width: 300px;
+  -moz-border-radius: var(--radius-md);
+  -webkit-border-radius: var(--radius-md);
+  border-radius: var(--radius-md);
+  color: var(--color-base);
+  font-size: var(--text-xs);
+  opacity: 1;
+  background-size: var(--size-4);
+  background-position: var(--size-3) center;
+  background-repeat: no-repeat;
+  background-color: var(--color-component);
+  backdrop-filter: var(--blur);
+}
+
+#toast-container>.toast-info {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48ZyBmaWxsPSJub25lIj48cGF0aCBkPSJtMTIuNTkzIDIzLjI1OGwtLjAxMS4wMDJsLS4wNzEuMDM1bC0uMDIuMDA0bC0uMDE0LS4wMDRsLS4wNzEtLjAzNXEtLjAxNi0uMDA1LS4wMjQuMDA1bC0uMDA0LjAxbC0uMDE3LjQyOGwuMDA1LjAybC4wMS4wMTNsLjEwNC4wNzRsLjAxNS4wMDRsLjAxMi0uMDA0bC4xMDQtLjA3NGwuMDEyLS4wMTZsLjAwNC0uMDE3bC0uMDE3LS40MjdxLS4wMDQtLjAxNi0uMDE3LS4wMThtLjI2NS0uMTEzbC0uMDEzLjAwMmwtLjE4NS4wOTNsLS4wMS4wMWwtLjAwMy4wMTFsLjAxOC40M2wuMDA1LjAxMmwuMDA4LjAwN2wuMjAxLjA5M3EuMDE5LjAwNS4wMjktLjAwOGwuMDA0LS4wMTRsLS4wMzQtLjYxNHEtLjAwNS0uMDE4LS4wMi0uMDIybS0uNzE1LjAwMmEuMDIuMDIgMCAwIDAtLjAyNy4wMDZsLS4wMDYuMDE0bC0uMDM0LjYxNHEuMDAxLjAxOC4wMTcuMDI0bC4wMTUtLjAwMmwuMjAxLS4wOTNsLjAxLS4wMDhsLjAwNC0uMDExbC4wMTctLjQzbC0uMDAzLS4wMTJsLS4wMS0uMDF6Ii8+PHBhdGggZmlsbD0iI0VFRUVFRSIgZD0iTTEyIDJjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMHMtNC40NzcgMTAtMTAgMTBTMiAxNy41MjMgMiAxMlM2LjQ3NyAyIDEyIDJtLS4wMSA4SDExYTEgMSAwIDAgMC0uMTE3IDEuOTkzTDExIDEydjQuOTljMCAuNTIuMzk0Ljk1LjkgMS4wMDRsLjExLjAwNmguNDlhMSAxIDAgMCAwIC41OTYtMS44MDNMMTMgMTYuMTM0VjExLjAxYzAtLjUyLS4zOTQtLjk1LS45LTEuMDA0ek0xMiA3YTEgMSAwIDEgMCAwIDJhMSAxIDAgMCAwIDAtMiIvPjwvZz48L3N2Zz4=)!important
+}
+
+#toast-container>.toast-error {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48ZyBmaWxsPSJub25lIj48cGF0aCBkPSJtMTIuNTkzIDIzLjI1OGwtLjAxMS4wMDJsLS4wNzEuMDM1bC0uMDIuMDA0bC0uMDE0LS4wMDRsLS4wNzEtLjAzNXEtLjAxNi0uMDA1LS4wMjQuMDA1bC0uMDA0LjAxbC0uMDE3LjQyOGwuMDA1LjAybC4wMS4wMTNsLjEwNC4wNzRsLjAxNS4wMDRsLjAxMi0uMDA0bC4xMDQtLjA3NGwuMDEyLS4wMTZsLjAwNC0uMDE3bC0uMDE3LS40MjdxLS4wMDQtLjAxNi0uMDE3LS4wMThtLjI2NS0uMTEzbC0uMDEzLjAwMmwtLjE4NS4wOTNsLS4wMS4wMWwtLjAwMy4wMTFsLjAxOC40M2wuMDA1LjAxMmwuMDA4LjAwN2wuMjAxLjA5M3EuMDE5LjAwNS4wMjktLjAwOGwuMDA0LS4wMTRsLS4wMzQtLjYxNHEtLjAwNS0uMDE4LS4wMi0uMDIybS0uNzE1LjAwMmEuMDIuMDIgMCAwIDAtLjAyNy4wMDZsLS4wMDYuMDE0bC0uMDM0LjYxNHEuMDAxLjAxOC4wMTcuMDI0bC4wMTUtLjAwMmwuMjAxLS4wOTNsLjAxLS4wMDhsLjAwNC0uMDExbC4wMTctLjQzbC0uMDAzLS4wMTJsLS4wMS0uMDF6Ii8+PHBhdGggZmlsbD0iI0VFRUVFRSIgZD0ibTEzLjI5OSAzLjE0OGw4LjYzNCAxNC45NTRhMS41IDEuNSAwIDAgMS0xLjI5OSAyLjI1SDMuMzY2YTEuNSAxLjUgMCAwIDEtMS4yOTktMi4yNWw4LjYzNC0xNC45NTRjLjU3Ny0xIDIuMDItMSAyLjU5OCAwTTEyIDE1YTEgMSAwIDEgMCAwIDJhMSAxIDAgMCAwIDAtMm0wLTdhMSAxIDAgMCAwLS45OTMuODgzTDExIDl2NGExIDEgMCAwIDAgMS45OTMuMTE3TDEzIDEzVjlhMSAxIDAgMCAwLTEtMSIvPjwvZz48L3N2Zz4=)!important
+}
+
+#toast-container>.toast-success {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48ZyBmaWxsPSJub25lIj48cGF0aCBkPSJtMTIuNTkzIDIzLjI1OGwtLjAxMS4wMDJsLS4wNzEuMDM1bC0uMDIuMDA0bC0uMDE0LS4wMDRsLS4wNzEtLjAzNXEtLjAxNi0uMDA1LS4wMjQuMDA1bC0uMDA0LjAxbC0uMDE3LjQyOGwuMDA1LjAybC4wMS4wMTNsLjEwNC4wNzRsLjAxNS4wMDRsLjAxMi0uMDA0bC4xMDQtLjA3NGwuMDEyLS4wMTZsLjAwNC0uMDE3bC0uMDE3LS40MjdxLS4wMDQtLjAxNi0uMDE3LS4wMThtLjI2NS0uMTEzbC0uMDEzLjAwMmwtLjE4NS4wOTNsLS4wMS4wMWwtLjAwMy4wMTFsLjAxOC40M2wuMDA1LjAxMmwuMDA4LjAwN2wuMjAxLjA5M3EuMDE5LjAwNS4wMjktLjAwOGwuMDA0LS4wMTRsLS4wMzQtLjYxNHEtLjAwNS0uMDE4LS4wMi0uMDIybS0uNzE1LjAwMmEuMDIuMDIgMCAwIDAtLjAyNy4wMDZsLS4wMDYuMDE0bC0uMDM0LjYxNHEuMDAxLjAxOC4wMTcuMDI0bC4wMTUtLjAwMmwuMjAxLS4wOTNsLjAxLS4wMDhsLjAwNC0uMDExbC4wMTctLjQzbC0uMDAzLS4wMTJsLS4wMS0uMDF6Ii8+PHBhdGggZmlsbD0iI0VFRUVFRSIgZD0iTTEyIDJjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMHMtNC40NzcgMTAtMTAgMTBTMiAxNy41MjMgMiAxMlM2LjQ3NyAyIDEyIDJtMy41MzUgNi4zODFsLTQuOTUgNC45NWwtMi4xMi0yLjEyMWExIDEgMCAwIDAtMS40MTUgMS40MTRsMi43NTggMi43NThhMS4xIDEuMSAwIDAgMCAxLjU1NiAwbDUuNTg2LTUuNTg2YTEgMSAwIDAgMC0xLjQxNS0xLjQxNSIvPjwvZz48L3N2Zz4=)!important
+}
+
+#toast-container>.toast-warning {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGYSURBVEhL5ZSvTsNQFMbXZGICMYGYmJhAQIJAICYQPAACiSDB8AiICQQJT4CqQEwgJvYASAQCiZiYmJhAIBATCARJy+9rTsldd8sKu1M0+dLb057v6/lbq/2rK0mS/TRNj9cWNAKPYIJII7gIxCcQ51cvqID+GIEX8ASG4B1bK5gIZFeQfoJdEXOfgX4QAQg7kH2A65yQ87lyxb27sggkAzAuFhbbg1K2kgCkB1bVwyIR9m2L7PRPIhDUIXgGtyKw575yz3lTNs6X4JXnjV+LKM/m3MydnTbtOKIjtz6VhCBq4vSm3ncdrD2lk0VgUXSVKjVDJXJzijW1RQdsU7F77He8u68koNZTz8Oz5yGa6J3H3lZ0xYgXBK2QymlWWA+RWnYhskLBv2vmE+hBMCtbA7KX5drWyRT/2JsqZ2IvfB9Y4bWDNMFbJRFmC9E74SoS0CqulwjkC0+5bpcV1CZ8NMej4pjy0U+doDQsGyo1hzVJttIjhQ7GnBtRFN1UarUlH8F3xict+HY07rEzoUGPlWcjRFRr4/gChZgc3ZL2d8oAAAAASUVORK5CYII=)!important
+}
+
+/*Sotsera customizations*/
+#toast-container .text-left {
+  text-align: left !important
+}
+
+#toast-container .text-right {
+  text-align: right !important
+}
+
+#toast-container .text-center {
+  text-align: center !important
+}

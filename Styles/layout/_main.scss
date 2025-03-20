@@ -1,0 +1,15 @@
+.main {
+  grid-template-areas: 
+            "sidebar header" 
+            "sidebar content";
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
+  display: grid;
+  width: 800px;
+  margin: auto;
+}
+
+.content {
+  grid-area: content;
+  padding: var(--size-3) var(--size-2);
+}

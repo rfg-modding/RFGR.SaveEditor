@@ -1,0 +1,39 @@
+﻿@page "/"
+@inject Services.TabStateService TabState
+
+@switch (TabState.ActiveTab)
+{
+    case 0:
+        <Player/>
+        break;
+    case 1:
+        <World/>
+        break;
+    case 2:
+        <Missions/>
+        break;
+    case 3:
+        <WeaponCabinet/>
+        break;
+    case 4:
+        <Teams/>
+        break;
+    case 5:
+        <Raw/>
+        break;
+    case 6:
+        <IOSave/>
+        break;
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        TabState.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        TabState.OnChange -= StateHasChanged;
+    }
+}

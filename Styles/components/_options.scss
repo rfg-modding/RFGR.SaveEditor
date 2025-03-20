@@ -1,0 +1,44 @@
+.option {
+  
+  &__box {
+    background: var(--color-component);
+    border-radius: var(--radius-md);
+  }
+  
+  &__row {
+    width: 100%;
+    padding: var(--size-2) var(--size-3);
+    position: relative;
+    
+    &__body {
+      display: flex;
+      align-items: center;
+      gap: var(--size-2);
+    }
+    
+    &--btn {
+      padding: var(--size-1) var(--size-3);
+    }
+  }
+  
+  &__label {
+    color: var(--color-dim);
+    font-weight: var(--font-medium);
+  }
+  
+  &__value {
+    display: flex;
+    gap: var(--size-2);
+    align-items: center;
+    margin-left: auto;
+  }
+  
+  &__divider {
+    position: absolute;
+    top: 0;
+    left: var(--size-2);
+    right: var(--size-2);
+    border-bottom: 1px solid var(--color-border);
+    
+  }
+}
