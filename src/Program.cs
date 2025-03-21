@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-using System.Runtime.Versioning;
-using ICSharpCode.SharpZipLib.Core;
+﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Photino.Blazor;
 using Photino.NET;
@@ -9,7 +7,6 @@ using Sotsera.Blazor.Toaster.Core.Models;
 
 namespace RFGR.SaveEditor;
 
-[SupportedOSPlatform("windows")]
 internal class Program
 {
     public static PhotinoWindow MainWindow { get; private set; } = null!;
@@ -43,8 +40,13 @@ internal class Program
         
         var app = builder.Build();
         
+        var version = Assembly.GetExecutingAssembly()
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+        //var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3);
+        var title = "RFGR.SaveEditor" + (version is null ? "" : $" (v{version})");
+        
         MainWindow = app.MainWindow
-            .SetTitle("RFGR.SaveEditor")
+            .SetTitle(title)
             .SetUseOsDefaultLocation(true)
             .SetWidth(850)
             .SetMinWidth(850)
