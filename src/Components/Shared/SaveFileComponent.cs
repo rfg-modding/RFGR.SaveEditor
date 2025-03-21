@@ -2,7 +2,7 @@
 using RFGM.Formats.Saves;
 using RFGR.SaveEditor.Services;
 
-namespace RFGR.SaveEditor.Components;
+namespace RFGR.SaveEditor.Components.Shared;
 
 public class SaveFileComponent : ComponentBase, IDisposable
 {
