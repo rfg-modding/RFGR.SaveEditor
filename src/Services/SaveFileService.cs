@@ -120,34 +120,10 @@ public class SaveFileService(LocatorService locator, IToaster toaster) : IDispos
         }
     }
     
-    public async Task SaveGog()
-    {
-        if (string.IsNullOrEmpty(_gogSavePath))
-        {
-            _gogSavePath = locator.DetectGogSaveLocation();
-        }
-
-        await Save(_gogSavePath);
-    }
-    
-    public async Task SaveSteam()
-    {
-        if (string.IsNullOrEmpty(_steamSavePath))
-        {
-            _steamSavePath = locator.DetectSteamSaveLocation();
-        }
-        
-        await Save(_steamSavePath);
-    }
-    
+    public async Task SaveGog() => await Save(_gogSavePath);
+    public async Task SaveSteam() => await Save(_steamSavePath);
     public async Task SaveCurrent()
     {
-        if (string.IsNullOrEmpty(_currentSavePath))
-        {
-            toaster.Error("Failed to save file. Current save file path could not be located.");
-            return;
-        }
-
         await Save(_currentSavePath);
     }
     
@@ -165,15 +141,8 @@ public class SaveFileService(LocatorService locator, IToaster toaster) : IDispos
                 File.Copy(file, backupPath, overwrite: false);
             }
             
-            /*await using var fileStream = File.Create(file);
-            SaveFile.Write(fileStream);*/
-            
-            await using (var fileStream = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None, 
-                             bufferSize: 4096, useAsync: true))
-            {
-                SaveFile.Write(fileStream);
-            }
-            
+            await using var fileStream = File.Create(file);
+            SaveFile.Write(fileStream);
             toaster.Success($"Successfully saved to {file}");
         }
         catch (Exception ex)
