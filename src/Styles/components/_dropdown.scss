@@ -12,6 +12,7 @@
   transform-origin: top left;
   background: var(--color-component);
   backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: $blur;
   padding: var(--size-2);
   font-size: var(--text-sm);
   color: var(--color-dim);

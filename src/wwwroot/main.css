@@ -429,6 +429,7 @@ input[type=range]::-webkit-slider-thumb {
   border-radius: var(--radius-full);
   background: var(--color-component);
   backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: blur(30px);
   transition: var(--transition);
 }
 input[type=range]::-webkit-slider-thumb:hover {
@@ -440,6 +441,7 @@ input[type=range]::-webkit-slider-thumb:hover {
   height: 14px;
   background: var(--color-component);
   backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: blur(30px);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   outline: none;
@@ -477,6 +479,7 @@ svg {
   padding: var(--size-2) var(--size-4);
   background: var(--color-component);
   backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: blur(30px);
   color: var(--color-base);
   display: flex;
   align-items: center;
@@ -618,6 +621,7 @@ svg {
 .badge {
   background: var(--color-component);
   backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: blur(30px);
   border-radius: var(--radius-md);
   padding: var(--size-1) var(--size-2);
   display: inline-flex;
@@ -668,6 +672,7 @@ svg {
   transform-origin: top left;
   background: var(--color-component);
   backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: blur(30px);
   padding: var(--size-2);
   font-size: var(--text-sm);
   color: var(--color-dim);
@@ -738,6 +743,7 @@ The specific version url is: https://github.com/CodeSeven/toastr/blob/50092cc604
   background-repeat: no-repeat;
   background-color: var(--color-component);
   backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: blur(30px);
 }
 
 #toast-container > .toast-info {
@@ -820,6 +826,12 @@ The specific version url is: https://github.com/CodeSeven/toastr/blob/50092cc604
   grid-area: content;
   padding: var(--size-3) var(--size-2);
 }
+.content--open {
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
 
 .sidebar {
   grid-area: sidebar;
@@ -897,7 +909,6 @@ The specific version url is: https://github.com/CodeSeven/toastr/blob/50092cc604
   justify-content: center;
   gap: var(--size-4);
   flex-direction: column;
-  justify-self: center;
   color: var(--color-dim);
 }
 .options--open__title {

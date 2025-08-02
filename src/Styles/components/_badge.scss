@@ -1,6 +1,7 @@
 .badge {
   background: var(--color-component);
   backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: $blur;
   border-radius: var(--radius-md);
   padding: var(--size-1) var(--size-2);
   display: inline-flex;

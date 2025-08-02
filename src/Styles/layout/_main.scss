@@ -12,4 +12,11 @@
 .content {
   grid-area: content;
   padding: var(--size-3) var(--size-2);
+  
+  &--open {
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
 }
