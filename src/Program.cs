@@ -39,9 +39,9 @@ internal class Program
             });
         
         var app = builder.Build();
-        
-        var version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-        var title = "RFGR.SaveEditor" + (version is null ? "" : $" (v{version})");
+
+        var version = Assembly.GetExecutingAssembly().GetName().Version;
+        var title = "RFGR.SaveEditor" + (version is null ? "" : $" (v{version.Major}.{version.Minor}.{version.Build})");
         
         MainWindow = app.MainWindow
             .SetTitle(title)

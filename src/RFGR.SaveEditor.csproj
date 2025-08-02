@@ -1,34 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-
     <PropertyGroup>
-        <OutputType>WinExe</OutputType>
         <Platforms>x64</Platforms>
-        <TargetFramework>net8.0-windows</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
+
         <ApplicationIcon>wwwroot/images/icon.ico</ApplicationIcon>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
-        
-    </PropertyGroup>
-    
-    <PropertyGroup>
-        <Version>1.0.1</Version>
+        <OutputType>WinExe</OutputType>
+        <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+
+        <Version>1.0.2</Version>
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <FileVersion>$(Version)</FileVersion>
         <InformationalVersion>$(Version)</InformationalVersion>
-        <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
-    </PropertyGroup>
-    
-    <PropertyGroup>
-        <SelfContained>false</SelfContained>
+
+        <SelfContained>true</SelfContained>
         <PublishSingleFile>true</PublishSingleFile>
-        <DebugType>embedded</DebugType>
         <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-        <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+        <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+        <CompressionEnabled>false</CompressionEnabled>
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
+
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=./</PathMap>
     </PropertyGroup>
     
-    <PropertyGroup>
-        <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=./</PathMap>
+    <PropertyGroup Condition="'$(RuntimeIdentifier)' == 'linux-x64'">
+        <OutputType>Exe</OutputType>
     </PropertyGroup>
     
     <ItemGroup>
