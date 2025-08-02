@@ -1,4 +1,5 @@
-﻿using RFGM.Formats.Saves;
+﻿using System.Runtime.InteropServices;
+using RFGM.Formats.Saves;
 using RFGR.SaveEditor.Utilities;
 using Sotsera.Blazor.Toaster;
 
@@ -8,7 +9,7 @@ public class SaveFileService(LocatorService locator, IToaster toaster) : IDispos
 {
     public event Action? OnSelectedSlotChanged;
     public event Action? OnSaveFileLoaded;
-    
+
     public SaveFile SaveFile { get; private set; }
     public List<SaveSlot> Slots { get; private set; }
 
@@ -25,60 +26,15 @@ public class SaveFileService(LocatorService locator, IToaster toaster) : IDispos
         get => _selectedSlot;
         set { _selectedSlot = value; OnSelectedSlotChanged?.Invoke(); }
     }
-
-    private string _gogSavePath = string.Empty;
-    private string _steamSavePath = string.Empty;
-    private string _currentSavePath = string.Empty;
-
-    private void SortSlots()
-    {
-        var baseSlots = SaveFile.Slots
-            .Where(slot => slot.Exists && !SlotHelpers.IsDlc(slot))
-            .OrderByDescending(slot => slot.Info.IsAutoSave)
-            .ThenByDescending(SlotHelpers.GetCreationDate)
-            .ToList();
-
-        var dlcSlots = SaveFile.Slots
-            .Where(slot => slot.Exists && SlotHelpers.IsDlc(slot))
-            .OrderByDescending(slot => slot.Info.IsAutoSave)
-            .ThenByDescending(SlotHelpers.GetCreationDate)
-            .ToList();
-
-        Slots = baseSlots.Concat(dlcSlots).ToList();
-    }
-
+    
     public bool GogFoundFile { get; private set; }
     public bool GogFoundDirectory { get; private set; }
     public bool SteamFoundFile { get; private set; }
     public bool SteamFoundDirectory { get; private set; }
     
-    public void LocatePlatforms()
-    {
-        var gogSavePath = locator.DetectGogSaveLocation();
-        var steamSavePath = locator.DetectSteamSaveLocation();
-
-        if (!string.IsNullOrEmpty(gogSavePath))
-        {
-            GogFoundFile = File.Exists(gogSavePath);
-            GogFoundDirectory = Directory.Exists(Path.GetDirectoryName(gogSavePath));
-            _gogSavePath = gogSavePath;
-        }
-        else
-        {
-            GogFoundFile = false; GogFoundDirectory = false;
-        }
-        
-        if (!string.IsNullOrEmpty(steamSavePath))
-        {
-            SteamFoundFile = File.Exists(steamSavePath);
-            SteamFoundDirectory = Directory.Exists(Path.GetDirectoryName(steamSavePath));
-            _steamSavePath = steamSavePath;
-        }
-        else
-        {
-            SteamFoundFile = false; SteamFoundDirectory = false;
-        }
-    }
+    private string _gogSavePath = string.Empty;
+    private string _steamSavePath = string.Empty;
+    private string _currentSavePath = string.Empty;
 
     public async Task OpenGog() => await Open(_gogSavePath);
     public async Task OpenSteam() => await Open(_steamSavePath);
@@ -149,6 +105,53 @@ public class SaveFileService(LocatorService locator, IToaster toaster) : IDispos
         {
             toaster.Error($"Failed to save file. {ex}");
         }
+    }
+    
+    public void LocatePlatforms()
+    {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return;
+        
+        var gogSavePath = locator.DetectGogSaveLocation();
+        var steamSavePath = locator.DetectSteamSaveLocation();
+
+        if (!string.IsNullOrEmpty(gogSavePath))
+        {
+            GogFoundFile = File.Exists(gogSavePath);
+            GogFoundDirectory = Directory.Exists(Path.GetDirectoryName(gogSavePath));
+            _gogSavePath = gogSavePath;
+        }
+        else
+        {
+            GogFoundFile = false; GogFoundDirectory = false;
+        }
+        
+        if (!string.IsNullOrEmpty(steamSavePath))
+        {
+            SteamFoundFile = File.Exists(steamSavePath);
+            SteamFoundDirectory = Directory.Exists(Path.GetDirectoryName(steamSavePath));
+            _steamSavePath = steamSavePath;
+        }
+        else
+        {
+            SteamFoundFile = false; SteamFoundDirectory = false;
+        }
+    }
+    
+    private void SortSlots()
+    {
+        var baseSlots = SaveFile.Slots
+            .Where(slot => slot.Exists && !SlotHelpers.IsDlc(slot))
+            .OrderByDescending(slot => slot.Info.IsAutoSave)
+            .ThenByDescending(SlotHelpers.GetCreationDate)
+            .ToList();
+
+        var dlcSlots = SaveFile.Slots
+            .Where(slot => slot.Exists && SlotHelpers.IsDlc(slot))
+            .OrderByDescending(slot => slot.Info.IsAutoSave)
+            .ThenByDescending(SlotHelpers.GetCreationDate)
+            .ToList();
+
+        Slots = baseSlots.Concat(dlcSlots).ToList();
     }
 
     public void Close()
