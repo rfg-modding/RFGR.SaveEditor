@@ -10,21 +10,31 @@ public class SaveFileService(LocatorService locator, IToaster toaster) : IDispos
     public event Action? OnSelectedSlotChanged;
     public event Action? OnSaveFileLoaded;
 
-    public SaveFile SaveFile { get; private set; }
-    public List<SaveSlot> Slots { get; private set; }
+    public SaveFile? SaveFile { get; private set; }
+    public List<SaveSlot> Slots { get; private set; } = new();
 
     private bool _saveLoaded;
     public bool SaveLoaded
     {
         get => _saveLoaded;
-        private set { _saveLoaded = value; OnSaveFileLoaded?.Invoke(); }
+        private set
+        {
+            if (_saveLoaded == value) return;
+            _saveLoaded = value;
+            OnSaveFileLoaded?.Invoke();
+        }
     }
 
-    private SaveSlot _selectedSlot;
-    public SaveSlot SelectedSlot
+    private SaveSlot? _selectedSlot;
+    public SaveSlot? SelectedSlot
     {
         get => _selectedSlot;
-        set { _selectedSlot = value; OnSelectedSlotChanged?.Invoke(); }
+        set
+        {
+            if (_selectedSlot == value) return;
+            _selectedSlot = value; 
+            OnSelectedSlotChanged?.Invoke();
+        }
     }
     
     public bool GogFoundFile { get; private set; }
@@ -44,6 +54,7 @@ public class SaveFileService(LocatorService locator, IToaster toaster) : IDispos
             title: "Import file", 
             multiSelect: false, 
             filters: [("Save file", ["*.sav"]), ("All files", ["*.*"])]);
+        
         if (importPath.Length == 0) return;
         await Open(importPath[0]);
     }
@@ -85,15 +96,16 @@ public class SaveFileService(LocatorService locator, IToaster toaster) : IDispos
     
     private async Task Save(string file)
     {
+        if (SaveFile is null) return;
+        
         try
         {
             if (File.Exists(file))
             {
-                var currentTime = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
-                var directory = Path.GetDirectoryName(file);
-                var fileName = Path.GetFileNameWithoutExtension(file);
-                var extension = Path.GetExtension(file);
-                var backupPath = Path.Combine(directory, $"{fileName}-{currentTime}{extension}");
+                var backupPath = Path.Combine(
+                    Path.GetDirectoryName(file)!,
+                    $"{Path.GetFileNameWithoutExtension(file)}-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}{Path.GetExtension(file)}"
+                );
                 File.Copy(file, backupPath, overwrite: false);
             }
             
@@ -107,38 +119,28 @@ public class SaveFileService(LocatorService locator, IToaster toaster) : IDispos
         }
     }
     
+    private (bool fileFound, bool dirFound, string path) CheckPlatform(string path)
+    {
+        if (string.IsNullOrEmpty(path)) return (false, false, string.Empty);
+        return (
+            File.Exists(path),
+            Directory.Exists(Path.GetDirectoryName(path)!),
+            path
+        );
+    }
+
     public void LocatePlatforms()
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return;
-        
-        var gogSavePath = locator.DetectGogSaveLocation();
-        var steamSavePath = locator.DetectSteamSaveLocation();
 
-        if (!string.IsNullOrEmpty(gogSavePath))
-        {
-            GogFoundFile = File.Exists(gogSavePath);
-            GogFoundDirectory = Directory.Exists(Path.GetDirectoryName(gogSavePath));
-            _gogSavePath = gogSavePath;
-        }
-        else
-        {
-            GogFoundFile = false; GogFoundDirectory = false;
-        }
-        
-        if (!string.IsNullOrEmpty(steamSavePath))
-        {
-            SteamFoundFile = File.Exists(steamSavePath);
-            SteamFoundDirectory = Directory.Exists(Path.GetDirectoryName(steamSavePath));
-            _steamSavePath = steamSavePath;
-        }
-        else
-        {
-            SteamFoundFile = false; SteamFoundDirectory = false;
-        }
+        (GogFoundFile, GogFoundDirectory, _gogSavePath) = CheckPlatform(locator.DetectGogSaveLocation());
+        (SteamFoundFile, SteamFoundDirectory, _steamSavePath) = CheckPlatform(locator.DetectSteamSaveLocation());
     }
     
     private void SortSlots()
     {
+        if (SaveFile is null) return;
+        
         var baseSlots = SaveFile.Slots
             .Where(slot => slot.Exists && !SlotHelpers.IsDlc(slot))
             .OrderByDescending(slot => slot.Info.IsAutoSave)
@@ -157,15 +159,14 @@ public class SaveFileService(LocatorService locator, IToaster toaster) : IDispos
     public void Close()
     {
         SaveLoaded = false;
-        SaveFile = null!;
-        SelectedSlot = null!;
-        Slots = null!;
+        SaveFile = null;
+        SelectedSlot = null;
+        Slots = new List<SaveSlot>();
     }
     
     public void Dispose()
     {
-        OnSelectedSlotChanged = null;
-        OnSaveFileLoaded = null;
         Close();
+        GC.SuppressFinalize(this);
     }
 }
